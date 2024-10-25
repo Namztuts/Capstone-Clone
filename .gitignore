@@ -1,0 +1,10 @@
+READMEold.md
+__pycache__/
+venv/
+1steps/
+2notes/
+node_modules/
+package-lock.json
+package.json
+secret.py
+.env

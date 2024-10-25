@@ -1,0 +1,140 @@
+<!-- extends -->
+{% extends 'base.html' %}
+<!-- block title -->
+{% block title %}{{user.full_name()}}{% endblock %}
+<!-- block content start-->
+{% block content %}
+<div
+   class="container-fluid shadow"
+   style="background-color: rgb(245, 245, 245)"
+>
+   <div class="row">
+      <!-- main content -->
+      <div class="col-md-9 mt-3">
+         <!-- calendars -->
+         <div class="d-flex justify-content align-items-center">
+            <h3 class="my-3">
+               <!-- if there are calendars, make it a link -->
+               {% if g.user.calendars and g.user.calendars|length > 0 %}
+               <a href="/user/{{user.id}}/calendar/{{user.calendars[0].id}}"
+                  >Calendars</a
+               >
+               {% else %} Calendars {% endif %} |
+            </h3>
+            <a
+               href="/user/{{user.id}}/calendar/new"
+               class="btn btn-outline-secondary ml-2"
+               >Create New Calendar</a
+            >
+         </div>
+         <ul class="user-calendars-list list-unstyled">
+            {% for calendar in calendars %}
+            <li>
+               <div
+                  class="card mb-3 shadow-sm"
+                  style="border: 1px rgb(155, 155, 155) solid"
+               >
+                  <div
+                     class="card-body d-flex justify-content-between align-items-center py-2"
+                     style="background-color: rgb(234, 245, 255)"
+                  >
+                     <div class="card-title mt-2">
+                        <a href="/user/{{user.id}}/calendar/{{calendar.id}}"
+                           ><strong>{{calendar.name}} Calendar</strong>
+                        </a>
+                        <p class="card-text"><i>{{calendar.description}}</i></p>
+                     </div>
+                     <a
+                        href="/user/{{user.id}}/calendar/{{calendar.id}}/edit"
+                        class="btn btn-xs btn-outline-primary"
+                        >✏ Edit</a
+                     >
+                  </div>
+               </div>
+            </li>
+            {% endfor %}
+         </ul>
+
+         <!-- events -->
+         <div class="d-flex justify-content align-items-center">
+            <h3>Upcoming Events</h3>
+         </div>
+         <ul class="user-events-list list-unstyled">
+            {% for event in events %}
+            <li>
+               <div
+                  class="card mb-3 p-0 shadow-sm"
+                  style="border: 1px rgb(155, 155, 155) solid"
+               >
+                  <!-- Event card header -->
+                  <div
+                     class="card-body d-flex justify-content-between align-items-center py-2"
+                     style="background-color: rgb(240, 240, 240)"
+                  >
+                     <h5 class="card-title my-2">
+                        <strong>{{event.title}}</strong>
+                     </h5>
+                     <small class="text-muted"
+                        ><strong>S: </strong
+                        >{{event.start_time.strftime('%m/%d/%Y')}} |
+                        {{event.start_time.strftime('%I:%M%p')}}</small
+                     >
+                  </div>
+                  <!-- Event card body -->
+                  <div
+                     class="card-body d-flex justify-content-between align-items-center"
+                  >
+                     <p class="card-text mb-0">{{event.description}}</p>
+                     <a
+                        href="/event/{{event.id}}/edit"
+                        class="btn btn-xs btn-outline-primary"
+                        >✏ Edit</a
+                     >
+                  </div>
+                  <!-- Event card footer -->
+                  <div
+                     class="card-footer d-flex justify-content-between align-items-center"
+                     style="border: none"
+                  >
+                     <small class="text-muted">📍 {{event.location}} </small>
+                     <small class="text-muted"
+                        ><strong>E: </strong>
+                        {{event.end_time.strftime('%m/%d/%Y')}} |
+                        {{event.end_time.strftime('%I:%M%p')}}
+                     </small>
+                  </div>
+               </div>
+            </li>
+            {% endfor %}
+         </ul>
+      </div>
+      <div class="col-md-3">
+         <div
+            class="card shadow-sm"
+            style="
+               min-height: 100vh;
+               background-color: rgb(214, 214, 214);
+               border: none;
+            "
+         >
+            <div class="card-body">
+               <h4 class="card-title text-center mb-4">
+                  <strong>Profile Details</strong>
+               </h4>
+               <p class="card-text">
+                  <strong>Name:</strong> {{user.full_name()}}
+               </p>
+               <p class="card-text"><strong>Email:</strong> {{user.email}}</p>
+               <!-- Add more user details as needed -->
+               <a
+                  href="/user/{{user.id}}/edit"
+                  class="btn btn-primary btn-block"
+                  >Edit Profile</a
+               >
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+{% endblock %}

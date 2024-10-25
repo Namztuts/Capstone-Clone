@@ -1,0 +1,85 @@
+body {
+   padding: 0;
+   margin: 0;
+}
+
+.alert {
+   padding: 0.5rem 1rem;
+   margin-bottom: 1rem;
+}
+
+#contents {
+   min-height: calc(100vh - 56px);
+}
+
+/* navbar styles */
+.navbar {
+   background-color: rgb(18, 148, 255);
+}
+.nav-link {
+   color: white !important;
+   margin-right: 15px;
+}
+.nav-link:hover {
+   background-color: rgb(0, 128, 233);
+   border-radius: 5px;
+}
+
+/* event forms for creating and editing events */
+#eventFormPopup {
+   background-color: #ecf8fb;
+}
+#editEventFormPopup {
+   background-color: #fff4eb;
+}
+.tooltip-popup {
+   display: none;
+   position: absolute;
+   border: 1px solid #000000;
+   padding: 15px;
+   border-radius: 4px;
+   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+   z-index: 1000;
+   width: 35vh;
+   max-height: 80vh;
+   overflow-y: auto; /* adds scrolling if window gets small enough */
+}
+/* Ensure the form fields scale */
+.tooltip-popup .form-control {
+   width: 100%;
+   margin-bottom: 0.5rem;
+}
+
+/* fullCalendar styles */
+.fc-other-month {
+   background-color: #f7f7f7;
+}
+.fc-highlight {
+   background-color: rgb(170, 255, 170);
+}
+.fc-day-header {
+   background-color: rgb(0, 128, 233);
+   color: white;
+}
+#calendar {
+   border: 1px solid black;
+   background-color: white;
+   padding: 15px;
+   border-radius: 10px;
+}
+.fc-event {
+   font-size: 14px;
+   border-radius: 5px;
+   padding: 5px;
+}
+.fc-event-all-day {
+   font-weight: bold;
+}
+
+/* for smaller screens */
+@media (max-width: 768px) {
+   .tooltip-popup {
+      width: 80vw;
+      padding: 1rem;
+   }
+}

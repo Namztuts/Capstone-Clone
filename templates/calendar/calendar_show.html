@@ -1,0 +1,178 @@
+<!-- extends -->
+{% extends 'base.html' %}
+<!-- block title -->
+{% block title %}Calendar{% endblock %}
+<!-- block content start-->
+{% block content %}
+<div
+   class="container-fluid shadow"
+   style="background-color: rgb(234, 245, 255)"
+>
+   <div class="d-flex justify-content-left align-items-center">
+      <h1 class="my-4">Calendar</h1>
+      <select
+         name="calendars"
+         id="calendars"
+         class="ml-3 form-select"
+      >
+         {% for cal in g.user.calendars %}
+         <option
+            value="{{cal.id}}"
+            {% if cal.id == calendar.id %} selected {% endif %}
+         >
+            {{cal.name}}
+         </option>
+         {% endfor %}
+      </select>
+   </div>
+   <div
+      id="calendar"
+      class="container-fluid shadow"
+   ></div>
+</div>
+
+<!-- event Form Popup -->
+<div
+   id="eventFormPopup"
+   class="tooltip-popup"
+>
+   <div class="d-flex justify-content-between align-items-center">
+      <h4><u>{{calendar.name}} | Create Event</u></h4>
+      <button
+         class="btn btn-xs btn-danger"
+         id="closePopup"
+      >
+         X
+      </button>
+   </div>
+   <form
+      method="POST"
+      class="mt-4"
+      id="event-form"
+   >
+      {{form.hidden_tag()}} {% for field in form if field.widget.input_type !=
+      'hidden' and field.label not in ['All Day', 'Location', 'Color',
+      'Recurring'] %}
+      <div class="mb-3">
+         {{field.label}}
+         <!-- if it's a DateTime field | show DateTime selector -->
+         {% if field.type == 'DateTimeField' %} {{field(class_="form-control",
+         type='datetime-local')}}
+         <!-- if it's a Boolean field | make it smaller -->
+         {% elif field.type == 'BooleanField' %}
+         {{field(class_="form-check-input checkbox-small ml-2")}}
+         <!-- else make it normal -->
+         {% else %} {{field(class_="form-control")}}
+         <!-- end if -->
+         {% endif %}
+
+         <!-- Error handling -->
+         {% for error in field.errors %}
+         <span class="form-text text-danger">{{error}}</span>
+         {% endfor %}
+         <!-- End error -->
+      </div>
+      {% endfor %}
+
+      <input
+         type="hidden"
+         id="creator_id"
+         value="{{g.user.id}}"
+      />
+      <input
+         type="hidden"
+         id="calendar_id"
+         value="{{calendar.id}}"
+      />
+      <div class="text-right">
+         <button
+            type="button"
+            class="btn btn-warning"
+            id="clearBtn"
+         >
+            Clear
+         </button>
+         <button
+            type="submit"
+            class="btn btn-success"
+         >
+            Create
+         </button>
+      </div>
+   </form>
+</div>
+
+<!-- EDIT event Form Popup -->
+<div
+   id="editEventFormPopup"
+   class="tooltip-popup"
+>
+   <div class="d-flex justify-content-between align-items-center">
+      <h4><u>{{calendar.name}} | Edit Event</u></h4>
+      <button
+         class="btn btn-xs btn-danger"
+         id="closeEditPopup"
+      >
+         X
+      </button>
+   </div>
+   <form
+      method="POST"
+      class="mt-4"
+      id="edit-event-form"
+   >
+      {{form.hidden_tag()}} {% for field in form if field.widget.input_type !=
+      'hidden' and field.label not in ['All Day', 'Location', 'Color',
+      'Recurring'] %}
+      <div class="mb-3">
+         {{field.label}}
+         <!-- if it's a DateTime field | show DateTime selector -->
+         {% if field.type == 'DateTimeField' %} {{field(class_="form-control",
+         type='datetime-local', id='edit_' + field.id)}}
+         <!-- if it's a Boolean field | make it smaller -->
+         {% elif field.type == 'BooleanField' %}
+         {{field(class_="form-check-input checkbox-small ml-2", id='edit_' +
+         field.id)}}
+         <!-- else make it normal -->
+         {% else %} {{field(class_="form-control", id='edit_' + field.id)}}
+         <!-- end if -->
+         {% endif %}
+
+         <!-- Error handling -->
+         {% for error in field.errors %}
+         <span class="form-text text-danger">{{error}}</span>
+         {% endfor %}
+         <!-- End error -->
+      </div>
+      {% endfor %}
+      <input
+         type="hidden"
+         id="creator_id"
+         value="{{g.user.id}}"
+      />
+      <input
+         type="hidden"
+         id="calendar_id"
+         value="{{calendar.id}}"
+      />
+      <div class="text-right">
+         <button
+            type="button"
+            class="btn btn-danger"
+            id="deleteEventBtn"
+         >
+            Delete
+         </button>
+         <button
+            type="submit"
+            class="btn btn-warning"
+         >
+            Update
+         </button>
+      </div>
+   </form>
+</div>
+{% endblock %}
+<!-- js script, only for this template -->
+{% block scripts %}<script src="/static/app.js"></script>{% endblock %}
+      

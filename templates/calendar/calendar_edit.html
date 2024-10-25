@@ -1,0 +1,54 @@
+<!-- extends -->
+{% extends 'base.html' %}
+<!-- block title -->
+{% block title %}Edit Calendar{% endblock %}
+<!-- block content start-->
+{% block content %}
+<div
+   class="container d-flex justify-content-center align-items-top"
+   style="min-height: 100vh"
+>
+   <div class="col-md-6">
+      <h1 class="text-center">Edit Calendar</h1>
+
+      <form
+         method="POST"
+         class="mt-4"
+      >
+         {{form.hidden_tag()}} {% for field in form if field.widget.input_type
+         != 'hidden' %}
+         <div class="mb-3">
+            {{field.label}}
+            <!-- if it's a Boolean field | make it smaller -->
+            {% if field.type == 'BooleanField' %}
+            {{field(class_="form-check-input checkbox-small ml-2")}}
+            <!-- else make it normal -->
+            {% else %} {{field(class_="form-control")}}
+            <!-- end if -->
+            {% endif %}
+            <!-- Error handling -->
+            {% for error in field.errors %}
+            <span class="form-text text-danger">{{error}}</span>
+            {% endfor %}
+            <!-- End error -->
+         </div>
+         {% endfor %}
+
+         <div class="text-right">
+            <a
+               href="/calendar/{{calendar.id}}/delete"
+               class="btn btn-danger"
+               >Delete</a
+            >
+            <button
+               type="submit"
+               class="btn btn-success"
+            >
+               Update
+            </button>
+         </div>
+      </form>
+   </div>
+</div>
+
+{% endblock %}
