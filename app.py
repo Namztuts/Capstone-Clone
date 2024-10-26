@@ -94,7 +94,7 @@ def login_user():
         email = form.email.data
         password = form.password.data
         
-        auth_user = User.authenticate(email, password)#NOTE: logging in seems to be working | show login home page for user specific
+        auth_user = User.authenticate(email, password)
         
         if auth_user:
             do_login(auth_user)
@@ -102,7 +102,7 @@ def login_user():
             
             return redirect(f'/user/{auth_user.id}')
         else:
-            form.email.errors = ['Invalid email/password'] #NOTE: add a unique error for both invalid Email and Password
+            form.email.errors = ['Invalid email/password']
     
     return render_template('login.html', form=form)
 
@@ -180,6 +180,7 @@ def user_delete(user_id):
     else:
         db.session.delete(user)
         db.session.commit()
+        do_logout() #remove user from session to avoid them being stuck there
         flash('User has been deleted', 'danger')
         
         return redirect("/login")
@@ -191,7 +192,7 @@ def user_delete(user_id):
 @app.route('/event/create', methods=["GET", "POST"])
 def event_new():
     '''Create a new Event'''
-    #NOTE: added this functionality to calendar/show
+    
     form = EventForm()
     calendars = [(cal.id, cal.name) for cal in Calendar.query.filter(Calendar.owner_id == g.user.id)] #getting a list of tuples with code and name of department
     #first value in the tuple is the value that gets extracted with form.calendar_id.data
@@ -217,7 +218,7 @@ def event_new():
             flash('New Event created!', 'success')
             return redirect(f'/user/{g.user.id}')
         else:
-            form.email.errors.append('Error with creating event?!') #NOTE: add appropriate error
+            form.email.errors.append('Error with creating event?!')
             
     return render_template ('event/event_new.html', form=form)
 
@@ -287,7 +288,7 @@ def calendar_new(user_id):
             flash('New Calendar created!', 'success')
             return redirect(f'/user/{user_id}')
         else:
-            form.email.errors.append('Error with creating calendar?!') #NOTE: add appropriate error
+            form.email.errors.append('Error with creating calendar?!')
             
     return render_template ('calendar/calendar_new.html', form=form)
 
@@ -318,7 +319,7 @@ def calendar_edit(user_id, cal_id):
 @app.route('/user/<int:user_id>/calendar/<int:cal_id>', methods=["GET", "POST"])
 def calendar_show(user_id, cal_id):
     '''Show user Calendar and Events'''
-    #NOTE: need to test verification for calendar and also so user can only view their calendars
+    
     if g.user is None or g.user.id != user_id:
             flash("You are not unauthorized to access this user", "danger")
             return redirect('/login')
