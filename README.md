@@ -8,7 +8,7 @@ I will also be using the FullCalendar API for my calendar visual.
 
 ### Site Title - Calendars
 
-[Linke to the site](https://calendar-clone-874x.onrender.com)
+[Linke to the site](https://capstone-clone.onrender.com)
 
 ### Describe What Website Does
 

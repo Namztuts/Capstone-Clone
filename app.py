@@ -73,9 +73,9 @@ def register_user():
         
         if new_user:
             do_login(new_user)
-            flash('Your account has been successfully created!', 'success')
+            flash('Your account has been successfully created! Welcome to Calendars!', 'success')
             
-            return redirect('/')
+            return redirect(f'/user/{new_user.id}')
         else:
             form.email.errors.append('Email already exists. Please register with another')
             
