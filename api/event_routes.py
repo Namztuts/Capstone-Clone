@@ -1,14 +1,15 @@
 from flask import Flask, request, jsonify, Blueprint
 from models import connect_db, db, Event
+import os
 
 app = Flask(__name__)
 api_events= Blueprint('api_events', __name__) #creating the API blueprint
 
-app.config["SECRET_KEY"] = "oh-so-secret"
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///calendar"
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "oh-so-secret")
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("SUPABASE_URL", "postgresql:///calendar")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-app.app_context().push()
+# app.app_context().push()
 connect_db(app)
 
 
