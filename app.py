@@ -72,12 +72,14 @@ def register_user():
         new_user = create_user(form) #method for pulling the data from the form and creating a new user | also adds to db
         
         if new_user:
+            do_login(new_user)
             flash('Your account has been successfully created!', 'success')
+            
             return redirect('/')
         else:
             form.email.errors.append('Email already exists. Please register with another')
             
-        do_login(new_user)
+        
 
     return render_template('register.html', form=form)
 
